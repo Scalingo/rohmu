@@ -64,13 +64,15 @@ For real-world usage, see `how Rohmu is used in PGHoard`_.
 Updating the dependency lock file
 =================================
 
-Dependencies are pinned in ``uv.lock``, generated from ``pyproject.toml``. After changing dependencies, regenerate it with:
+Dependencies are pinned in ``uv.lock``, generated from ``pyproject.toml``. After changing
+dependencies, regenerate it with:
 
 .. code:: sh
 
    make uv-lock
 
-This runs ``uv lock`` inside a Docker container, so only Docker is required locally (no uv or system libraries).
+This runs ``uv lock`` inside a Docker container, so only Docker is required locally (no uv or system
+libraries).
 
 ..
    start-include-building-the-package
