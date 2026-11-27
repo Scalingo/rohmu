@@ -6,6 +6,7 @@ long_ver = $(shell git describe --long 2>/dev/null | cut -f2 -d/ || echo $(short
 PYTHON ?= python3
 PYTHON_SOURCE_DIRS = rohmu/ test/
 PYTEST_ARG ?= -v
+UV_IMAGE ?= ghcr.io/astral-sh/uv:python3.12-bookworm
 RST_FILES = README.rst docs/about.rst docs/autodoc.rst docs/development.rst docs/index.rst docs/toc.rst docs/usage.rst
 
 .PHONY: fedora-dev-setup
@@ -51,6 +52,12 @@ venv:
 	source venv/bin/activate && \
 	pip install -U pip && \
 	pip install -e ".[dev,docs]"
+
+# Generate uv.lock in a container so uv is not required on the host.
+.PHONY: uv-lock
+uv-lock:
+	docker run --rm --user $(shell id -u):$(shell id -g) -v "$(CURDIR):/src" -w /src \
+		-e UV_CACHE_DIR=/tmp/uv-cache $(UV_IMAGE) uv lock
 
 .PHONY: clean
 clean:
